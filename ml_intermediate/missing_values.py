@@ -138,4 +138,20 @@ final_X_valid = pd.DataFrame(final_imputer.transform(X_valid))
 
 # Imputation removed column names; put them back
 final_X_train.columns = X_train.columns
-final_X_valid.columns = X_valid.columnsgit
+final_X_valid.columns = X_valid.columns
+
+
+# Define and fit model
+model = RandomForestRegressor(n_estimators=100, random_state=0)
+model.fit(final_X_train, y_train)
+
+# Get validation predictions and MAE
+preds_valid = model.predict(final_X_valid)
+print("MAE (Your approach):")
+print(mean_absolute_error(y_valid, preds_valid))
+
+# Preprocess test data
+final_X_test = pd.DataFrame(final_imputer.transform(X_test))
+
+# Get test predictions
+preds_test = model.predict(final_X_test)
